@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from 'src/user/dto/create.user.dto';
 import { User } from 'src/user/entity/user.entity';
 import { Repository } from 'typeorm';
 import * as brcypt from 'bcrypt'
 import { JwtPayload } from './jwt/jwt.interface';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './dto/login.user.dto';
+import { RegisterUserDto } from './dto/register.user.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
     return await brcypt.compare(password, hashedPassword);
   }
 
-  async registerUser(dto: CreateUserDto) {
+  async registerUser(dto: RegisterUserDto) {
     const user = await this.userRepo.findOne({ 
       where: {
         email: dto.email
@@ -38,6 +38,16 @@ export class AuthService {
 
     const salt = await brcypt.genSalt()
     const hashedPassword = await brcypt.hash(dto.password, salt);
+
+    if(dto.confirmPassword !== dto.password){
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.CONFLICT,
+          message: 'Confirm password is incorrect'
+        },
+        HttpStatus.CONFLICT,
+      );
+    }
 
     const newUser = this.userRepo.create({
       ...dto,

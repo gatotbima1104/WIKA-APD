@@ -1,6 +1,6 @@
 import { IsEmail, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
-export class CreateUserDto {
+export class RegisterUserDto {
   @IsString()
   @MinLength(6)
   @MaxLength(20)
@@ -21,8 +21,4 @@ export class CreateUserDto {
     message: 'Password must contain one uppercase letter, one lowercase letter, and one number',
   })
   confirmPassword: string;
-
-  // @IsString()
-  // profilePicture: string
-  profilePicture?: Express.Multer.File; // This is correctly typed for file uploads
 }

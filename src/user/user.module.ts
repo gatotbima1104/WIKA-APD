@@ -8,7 +8,7 @@ import { User } from './entity/user.entity';
 @Module({
   imports: [
     MulterModule.register({
-      dest: './uploads',
+      dest: './uploads'
     }),
     TypeOrmModule.forFeature([User])
   ],
