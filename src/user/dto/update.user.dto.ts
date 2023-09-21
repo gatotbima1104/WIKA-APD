@@ -9,10 +9,14 @@ export class EditUserDto {
   @IsEmail()
   email: string;
 
+  // @IsString()
+  // @MinLength(8)
+  // @MaxLength(20)
+  // password: string;
+
   @IsString()
-  @MinLength(8)
-  @MaxLength(20)
-  password: string;
+  position: string
+  
 
 
   // @FileInterceptor('profilePicture') // 'profilePicture' should match the field name in your HTML form

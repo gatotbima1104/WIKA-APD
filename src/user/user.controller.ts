@@ -8,6 +8,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Query
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create.user.dto';
@@ -15,6 +16,7 @@ import { EditUserDto } from './dto/update.user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path = require('path')
+import { FilterUserDto } from './dto/filter.user.dto';
 
 export const storage = {
     storage: diskStorage({
@@ -51,8 +53,18 @@ export class UserController {
   //   console.log(file)
   // }
 
+  // @Get()
+  // getUsers(@Query('pos') filter: FilterUserDto) {
+  //   console.log(filter)
+
+  //   if(Object.keys(filter).length > 0){
+  //     return this.userService.getUserByFilter(filter)
+  //   }else{
+  //     return this.userService.getUsers();
+  //   } 
+  // }
   @Get()
-  getUsers() {
+  getUsers(){
     return this.userService.getUsers();
   }
 

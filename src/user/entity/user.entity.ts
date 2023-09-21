@@ -1,3 +1,4 @@
+import { Position } from 'src/auth/role/position.enum';
 import { Role } from 'src/auth/role/role.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -24,4 +25,7 @@ export class User {
     nullable: true,
   })
   profilePicture: string;
+
+  @Column({type: 'enum', enum: Position, default: Position.Worker})
+  position: string
 }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create.user.dto';
 import { EditUserDto } from './dto/update.user.dto';
 import * as bcrypt from 'bcrypt'
+import { FilterUserDto } from './dto/filter.user.dto';
 
 
 @Injectable()
@@ -136,6 +137,25 @@ export class UserService {
       );
     }
     return user
+  }
+
+  async getUserByFilter(filter: FilterUserDto){
+    const builder = await this.userRepo.createQueryBuilder('user')
+      .select('user')
+      .where('user.position = :position', {position: filter})
+      .getMany()
+
+      if(!builder){
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            message: 'position not found'
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+    return builder
   }
 }
 
